@@ -45,7 +45,7 @@ script:
   - cmake -DCMAKE_TOOLCHAIN_FILE=../modules/mingw-toolchain.cmake ../${TASK}/
   - make
   - CTEST_OUTPUT_ON_FAILURE=1 make test
-  - [ $? == 0 ] || cat in.txt || true
+  - head -c 4096 in.txt || true
 
 # - ctest -VV -T memcheck
 # valgrind doesn't work with wine (╯°□°）╯︵ ┻━┻ (but it should)
