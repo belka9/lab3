@@ -1,0 +1,21 @@
+environment:
+    matrix:
+        - TOOLCHAIN: "mingw"
+          TASK: lab0
+          CONFIG: Debug
+
+install:
+    # copy-paste from https://github.com/ruslo/polly/blob/master/appveyor.yml
+    - cmd: set PATH=C:\Python34-x64;C:\Python34-x64\Scripts;%PATH%
+    - cmd: pip install requests
+    - cmd: appveyor DownloadFile https://github.com/ruslo/polly/archive/master.zip
+    - cmd: 7z x master.zip
+    - cmd: set POLLY_SOURCE_DIR=%cd%\polly-master
+    - cmd: python %POLLY_SOURCE_DIR%\bin\install-ci-dependencies.py
+    - cmd: set PATH=%cd%\_ci\cmake\bin;%PATH%
+    - cmd: set PATH=%cd%\_ci\ninja;%PATH%
+    - cmd: set PATH=%PATH:C:\Program Files\Git\usr\bin;=%
+    - cmd: set MINGW_PATH=C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin
+
+build_script:
+    - cmd: python %POLLY_SOURCE_DIR%\bin\build.py --home %TASK% --toolchain %TOOLCHAIN% --config %CONFIG% --verbose --clear --test
