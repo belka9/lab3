@@ -16,6 +16,10 @@ install:
     - cmd: set PATH=%cd%\_ci\ninja;%PATH%
     - cmd: set PATH=%PATH:C:\Program Files\Git\usr\bin;=%
     - cmd: set MINGW_PATH=C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin
+    - cmd: choco install chocolatey-core.extension --ignore-dependencies
+    - cmd: choco install cppcheck --ignore-dependencies
+    - cmd: set PATH=%PATH%;C:\Program Files\Cppcheck
 
 build_script:
     - cmd: python %POLLY_SOURCE_DIR%\bin\build.py --home %TASK% --toolchain %TOOLCHAIN% --config %CONFIG% --verbose --clear --test
+    - cmd: python %POLLY_SOURCE_DIR%\bin\build.py --home %TASK% --toolchain %TOOLCHAIN% --config %CONFIG% --verbose --target check

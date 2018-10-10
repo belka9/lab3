@@ -9,5 +9,5 @@ add_executable(${PROJECT_NAME} ${SRC})
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../modules")
 include(enable_warnings)
-include(valgrind)
+include(cpp_check)
 include(test_runner)
