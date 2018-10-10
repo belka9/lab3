@@ -1,25 +1,44 @@
+image:
+    - Visual Studio 2017
+
 environment:
     matrix:
-        - TOOLCHAIN: "mingw"
-          TASK: lab0
-          CONFIG: Debug
+        - TASK: lab0
+        - TASK: lab1-0
+        - TASK: lab1-1
+        - TASK: lab2
+        - TASK: lab3-0
+        - TASK: lab3-1
+        - TASK: lab4
+        - TASK: lab5
+        - TASK: lab6
+        - TASK: lab7
+        - TASK: lab8-0
+        - TASK: lab8-1
+        - TASK: lab9
 
 install:
-    # copy-paste from https://github.com/ruslo/polly/blob/master/appveyor.yml
-    - cmd: set PATH=C:\Python34-x64;C:\Python34-x64\Scripts;%PATH%
-    - cmd: pip install requests
-    - cmd: appveyor DownloadFile https://github.com/ruslo/polly/archive/master.zip
-    - cmd: 7z x master.zip
-    - cmd: set POLLY_SOURCE_DIR=%cd%\polly-master
-    - cmd: python %POLLY_SOURCE_DIR%\bin\install-ci-dependencies.py
-    - cmd: set PATH=%cd%\_ci\cmake\bin;%PATH%
-    - cmd: set PATH=%cd%\_ci\ninja;%PATH%
-    - cmd: set PATH=%PATH:C:\Program Files\Git\usr\bin;=%
-    - cmd: set MINGW_PATH=C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin
     - cmd: choco install chocolatey-core.extension --ignore-dependencies
+    - cmd: choco install ninja --ignore-dependencies
+    - cmd: choco install cmake --ignore-dependencies
     - cmd: choco install cppcheck --ignore-dependencies
     - cmd: set PATH=%PATH%;C:\Program Files\Cppcheck
 
+before_build:
+    - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat" x86_amd64
+
 build_script:
-    - cmd: python %POLLY_SOURCE_DIR%\bin\build.py --home %TASK% --toolchain %TOOLCHAIN% --config %CONFIG% --verbose --clear --test
-    - cmd: python %POLLY_SOURCE_DIR%\bin\build.py --home %TASK% --toolchain %TOOLCHAIN% --config %CONFIG% --verbose --target check
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_BUILD_TYPE=Release ../%TASK% -GNinja -DCMAKE_C_COMPILER=clang-cl
+    - cmake --build .
+    - cmake -E env CTEST_OUTPUT_ON_FAILURE=1 ninja test
+    - ninja check
+    - ninja clean
+    - cmake -DCMAKE_BUILD_TYPE=Release ../%TASK% -GNinja -DCMAKE_C_COMPILER=clang-cl -DENABLE_ASAN=true
+    - cmake --build .
+    - "%TASK%.exe < in.txt"
+    - ninja clean
+    - cmake -DCMAKE_BUILD_TYPE=Release ../%TASK% -GNinja -DCMAKE_C_COMPILER=clang-cl -DENABLE_USAN=true
+    - cmake --build .
+    - "%TASK%.exe < in.txt"
