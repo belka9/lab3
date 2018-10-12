@@ -12,7 +12,7 @@ if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
             -pedantic-errors")
 else ()
     target_compile_options(${PROJECT_NAME} PRIVATE
-		    -Werror
+		#-Werror
             -Weverything
             -Wno-padded
             -Wno-shadow
