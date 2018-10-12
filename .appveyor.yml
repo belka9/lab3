@@ -32,9 +32,11 @@ build_script:
     - cd build
     - cmake -DCMAKE_BUILD_TYPE=Release ../%TASK% -GNinja -DCMAKE_C_COMPILER=clang-cl
     - cmake --build .
+
+test_script:
     - cmake -E env CTEST_OUTPUT_ON_FAILURE=1 ninja test
 
-after_build:
+after_test:
     - ninja check
 
 on_failure:
