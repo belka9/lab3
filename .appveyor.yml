@@ -41,6 +41,7 @@ after_test:
 
 on_failure:
     - ps: Get-Content in.txt -TotalCount 128
+    - ps: Get-Content out.txt -TotalCount 128
 
 on_finish:
     - ninja clean
