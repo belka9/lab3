@@ -33,12 +33,15 @@ build_script:
     - cmake -DCMAKE_BUILD_TYPE=Release ../%TASK% -GNinja -DCMAKE_C_COMPILER=clang-cl
     - cmake --build .
     - cmake -E env CTEST_OUTPUT_ON_FAILURE=1 ninja test
+on_failure:
+    - type in.txt
+on_finish:
     - ninja check
     - ninja clean
     - cmake -DCMAKE_BUILD_TYPE=Release ../%TASK% -GNinja -DCMAKE_C_COMPILER=clang-cl -DENABLE_ASAN=true
     - cmake --build .
-    - "%TASK%.exe < in.txt"
+    - "%TASK%.exe < in.txt > out.txt"
     - ninja clean
     - cmake -DCMAKE_BUILD_TYPE=Release ../%TASK% -GNinja -DCMAKE_C_COMPILER=clang-cl -DENABLE_USAN=true
     - cmake --build .
-    - "%TASK%.exe < in.txt"
+    - "%TASK%.exe < in.txt > out.txt"
