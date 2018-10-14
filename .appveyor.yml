@@ -40,8 +40,8 @@ after_test:
     - ninja check
 
 on_failure:
-    - ps: Get-Content in.txt -TotalCount 128
-    - ps: Get-Content out.txt -TotalCount 128
+    - ps: "[char[]](Get-Content in.txt -Encoding byte -TotalCount 256)-join ''"
+    - ps: "[char[]](Get-Content out.txt -Encoding byte -TotalCount 256)-join ''"
 
 on_finish:
     - ninja clean
