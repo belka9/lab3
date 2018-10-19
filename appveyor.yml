@@ -3,19 +3,7 @@ image:
 
 environment:
     matrix:
-        - TASK: lab0
-        - TASK: lab1-0
         - TASK: lab1-1
-        - TASK: lab2
-        - TASK: lab3-0
-        - TASK: lab3-1
-        - TASK: lab4
-        - TASK: lab5
-        - TASK: lab6
-        - TASK: lab7
-        - TASK: lab8-0
-        - TASK: lab8-1
-        - TASK: lab9
 
 install:
     - cmd: choco install chocolatey-core.extension --ignore-dependencies
