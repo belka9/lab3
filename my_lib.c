@@ -7,7 +7,8 @@ void strCmp(unsigned char *str, unsigned char *pattern, int pos, int ind) {
     /*
      * Compare of 2 string - pattern and substring with len = length of pattern
      * */
-    for (int i = 0; i < strlen(pattern); i++) {
+    int n = strlen((const char *) pattern);
+    for (int i = 0; i < n; i++) {
         printf("%d ", pos + i + ind + 1);
         if (str[pos + i] != pattern[i])
             break;
