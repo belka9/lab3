@@ -1,7 +1,5 @@
 #include "my_lib.h"
 
-const int threeToPow[17] = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049,
-                            177147, 531441, 1594323, 4782969, 14348907, 43046721};
 
 void strCmp(unsigned char *str, unsigned char *pattern, int pos, int ind) {
     /*
@@ -15,7 +13,7 @@ void strCmp(unsigned char *str, unsigned char *pattern, int pos, int ind) {
     }
 }
 
-int getHash(unsigned char *str, int lenStr) {
+int getHash(unsigned char *str, int lenStr, const int threeToPow[]) {
     /*
      * Get the hash from the string by the algorithm:
      * hash(c[0], ..., c[N-1]) = sum((c[i] % 3) * (3 ^ i))
@@ -26,7 +24,7 @@ int getHash(unsigned char *str, int lenStr) {
     return sum;
 }
 
-int getRehash(int oldHash, unsigned char old, unsigned char new, int lenPat) {
+int getRehash(int oldHash, unsigned char old, unsigned char new, int lenPat, const int threeToPow[]) {
     /*
      * Get the rehash from the hash and old char and new char by the algorithm
      */
